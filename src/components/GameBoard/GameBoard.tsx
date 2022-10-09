@@ -1,33 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
-import { GameOfLife } from "../../logic/GameOfLife/GameOfLife";
-
-function createInitialGrid(numberOfRows: number) {
-	const grid = [];
-
-	for (let i = 0; i < numberOfRows; i++) {
-		grid.push(Array.from(Array(numberOfRows * 2), () => 0));
-	}
-	console.log(grid);
-	return grid;
-}
 
 function GameBoard() {
-	const [numberOfRows, setNumberOfRows] = useState(8);
-	const { gameBoard } = useGameBoard(numberOfRows);
+	const [numberOfRows, setNumberOfRows] = useState(16);
+	const { grid, toggleCell } = useGameBoard(numberOfRows);
 
 	return (
 		<div>
 			GameBoard
 			<Grid numberOfRows={numberOfRows}>
-				{gameBoard &&
-					gameBoard.grid.map((rows, i) =>
+				{grid &&
+					grid.map((rows, i) =>
 						rows.map((col, j) => (
 							<Cell
 								className={col === 0 ? "dead" : "alive"}
 								key={`${i}-${j}`}
-								onClick={() => gameBoard.toggleCell({ row: i, column: col })}
+								onClick={() => toggleCell({ row: i, column: j })}
 							/>
 						))
 					)}
@@ -44,7 +33,7 @@ const Grid = styled.div<GridProps>`
 	border: 3px solid var(--color-gray-700);
 	background-color: var(--color-gray-700);
 	display: grid;
-	gap: 1px;
+	gap: 2px;
 	grid-template-columns: repeat(${(props) => props.numberOfRows * 2}, 1fr);
 `;
 
@@ -57,6 +46,10 @@ const Cell = styled.div`
 
 	&:hover {
 		background-color: var(--color-gray-800);
+	}
+
+	&.alive {
+		background-color: var(--color-pink);
 	}
 `;
 
