@@ -1,9 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-body, html {
-    height: 100%;
-}
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -30,6 +27,9 @@ html, body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  font-family: var(--font-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 /*
   6. Improve media defaults
