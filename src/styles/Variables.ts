@@ -7,7 +7,9 @@ const Variables = createGlobalStyle`
 
         --color-background: hsla(277, 6%, 12%, 1.0);
         --color-text: hsla(277, 6%, 85%, 1.0);
-        --color-gray-800: hsla(277, 7%, 18%, 1.0);
+        --color-gray-900: hsla(280, 4%, 13%, 1.0);
+        --color-gray-800: hsla(277, 7%, 16%, 1.0);
+        --color-gray-700: hsla(277, 7%, 18%, 1.0);
     }
 `;
 

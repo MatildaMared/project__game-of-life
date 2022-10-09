@@ -10,10 +10,11 @@ function Header() {
 }
 
 const Container = styled.header`
+	width: 100%;
 	padding: 16px;
 	display: flex;
 	justify-content: flex-end;
-	background-color: rgba(255, 255, 255, 0.01);
+	background-color: var(--color-gray-900);
 	border-bottom: 1px solid var(--color-gray-800);
 `;
 
