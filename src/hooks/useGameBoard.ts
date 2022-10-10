@@ -29,11 +29,16 @@ function useGameBoard(numberOfRows: number) {
 		setGrid(newGrid);
 	}
 
+	function calculateNextFrame() {
+		const newGrid = gameOfLife.calculateNextFrame(grid);
+		setGrid(newGrid);
+	}
+
 	useEffect(() => {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
 	}, [numberOfRows, gameOfLife]);
 
-	return { grid, toggleCell, resetGame };
+	return { grid, toggleCell, resetGame, calculateNextFrame };
 }
 
 export default useGameBoard;
