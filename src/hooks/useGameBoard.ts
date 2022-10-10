@@ -10,6 +10,8 @@ type Grid = number[][];
 
 function useGameBoard(numberOfRows: number) {
 	const [grid, setGrid] = useState<Grid>([]);
+	const [isRunning, setIsRunning] = useState(false);
+
 	const [gameOfLife] = useState(
 		() =>
 			new GameOfLife([
@@ -22,6 +24,7 @@ function useGameBoard(numberOfRows: number) {
 
 	function resetGame() {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
+		setIsRunning(false);
 	}
 
 	function toggleCell(position: Position) {
@@ -29,16 +32,24 @@ function useGameBoard(numberOfRows: number) {
 		setGrid(newGrid);
 	}
 
-	function calculateNextFrame() {
-		const newGrid = gameOfLife.calculateNextFrame(grid);
-		setGrid(newGrid);
+	function toggleGame() {
+		setIsRunning(() => !isRunning);
 	}
 
 	useEffect(() => {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
 	}, [numberOfRows, gameOfLife]);
 
-	return { grid, toggleCell, resetGame, calculateNextFrame };
+	useEffect(() => {
+		if (isRunning) {
+			const interval = setInterval(() => {
+				setGrid(gameOfLife.calculateNextFrame(grid));
+			}, 750);
+			return () => clearInterval(interval);
+		}
+	}, [isRunning, grid, gameOfLife]);
+
+	return { grid, toggleCell, resetGame, toggleGame, isRunning };
 }
 
 export default useGameBoard;
