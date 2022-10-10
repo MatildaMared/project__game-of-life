@@ -1,11 +1,15 @@
 import LivingCellWithFourOrMoreNeighbors from "../LivingCellWithFourOrMoreNeighbors";
 
 describe("Living cell with four or more neighbors rule", () => {
-	test("rule does not apply to dead cells", () => {
+	test("rule only applies to living cells with four or more neighbors", () => {
 		const isAlive = false;
+		let numberOfNeighbors = 4;
 		const rule = new LivingCellWithFourOrMoreNeighbors();
 
-		expect(rule.applies(isAlive)).toBe(false);
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
+
+		numberOfNeighbors = 5;
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
 	});
 
 	test("a living cell with four or more neighbors does not survive", () => {
@@ -13,7 +17,7 @@ describe("Living cell with four or more neighbors rule", () => {
 		let numberOfNeighbors = 4;
 		const rule = new LivingCellWithFourOrMoreNeighbors();
 
-		expect(rule.applies(isAlive)).toBe(true);
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
 		expect(rule.shouldLive(numberOfNeighbors)).toBe(false);
 
 		numberOfNeighbors = 5;
@@ -21,20 +25,5 @@ describe("Living cell with four or more neighbors rule", () => {
 
 		numberOfNeighbors = 6;
 		expect(rule.shouldLive(numberOfNeighbors)).toBe(false);
-	});
-
-	test("a living cell with less than four neighbors survives", () => {
-		const isAlive = true;
-		let numberOfNeighbors = 1;
-		const rule = new LivingCellWithFourOrMoreNeighbors();
-
-		expect(rule.applies(isAlive)).toBe(true);
-		expect(rule.shouldLive(numberOfNeighbors)).toBe(true);
-
-		numberOfNeighbors = 2;
-		expect(rule.shouldLive(numberOfNeighbors)).toBe(true);
-
-		numberOfNeighbors = 1;
-		expect(rule.shouldLive(numberOfNeighbors)).toBe(true);
 	});
 });

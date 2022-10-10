@@ -1,11 +1,26 @@
 import LivingCellWithOneOrLessNeighbors from "../LivingCellWithOneOrLessNeighbors";
 
 describe("Living cell with one or less neighbors rule", () => {
-	test("rule does not apply to dead cells", () => {
+	test("only applies to living cells with one or less neighbors", () => {
 		const isAlive = false;
+		let numberOfNeighbors = 0;
 		const rule = new LivingCellWithOneOrLessNeighbors();
 
-		expect(rule.applies(isAlive)).toBe(false);
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
+
+		numberOfNeighbors = 1;
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
+	});
+
+	test("rule does not apply for living cells with more than one neighbor", () => {
+		const isAlive = true;
+		let numberOfNeighbors = 2;
+		const rule = new LivingCellWithOneOrLessNeighbors();
+
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(false);
+
+		numberOfNeighbors = 3;
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(false);
 	});
 
 	test("a living cell with one neighbor does not survive", () => {
@@ -13,7 +28,7 @@ describe("Living cell with one or less neighbors rule", () => {
 		const numberOfNeighbors = 1;
 		const rule = new LivingCellWithOneOrLessNeighbors();
 
-		expect(rule.applies(isAlive)).toBe(true);
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
 		expect(rule.shouldLive(numberOfNeighbors)).toBe(false);
 	});
 
@@ -22,7 +37,7 @@ describe("Living cell with one or less neighbors rule", () => {
 		const numberOfNeighbors = 0;
 		const rule = new LivingCellWithOneOrLessNeighbors();
 
-		expect(rule.applies(isAlive)).toBe(true);
+		expect(rule.applies(isAlive, numberOfNeighbors)).toBe(true);
 		expect(rule.shouldLive(numberOfNeighbors)).toBe(false);
 	});
 });

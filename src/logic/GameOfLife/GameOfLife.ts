@@ -31,7 +31,7 @@ export class GameOfLife {
 		let shouldLive = false;
 
 		for (const rule of this.rules) {
-			if (rule.applies(isAlive)) {
+			if (rule.applies(isAlive, numberOfNeighbors)) {
 				shouldLive = rule.shouldLive(numberOfNeighbors);
 				break;
 			}

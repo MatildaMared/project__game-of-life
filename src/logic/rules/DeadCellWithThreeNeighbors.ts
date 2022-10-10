@@ -1,8 +1,8 @@
 import { Rule } from "../../interfaces/Rule";
 
 export default class DeadCellWithThreeNeighbors implements Rule {
-	applies(isAlive: boolean): boolean {
-		return !isAlive;
+	applies(isAlive: boolean, numberOfNeighbors: number): boolean {
+		return !isAlive && numberOfNeighbors === 3;
 	}
 
 	shouldLive(numberOfNeighbors: number): boolean {

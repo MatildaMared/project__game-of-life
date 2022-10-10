@@ -1,4 +1,4 @@
 export interface Rule {
-	applies: (isAlive: boolean) => boolean;
+	applies: (isAlive: boolean, numberOfNeighbors: number) => boolean;
 	shouldLive: (numberOfNeighbors: number) => boolean;
 }
