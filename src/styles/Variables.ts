@@ -18,8 +18,9 @@ const Variables = createGlobalStyle`
         --color-gray-200: hsla(277, 7%, 60%, 1.0);
         --color-gray-100: hsla(277, 7%, 70%, 1.0);
 
-        --color-pink: hsla(327, 100%, 77%, .8);
-        --color-pink-transparent: hsla(327, 100%, 77%, .6);
+        --color-pink-dark: hsla(334, 62%, 52%, 1.0);
+        --color-pink: hsla(334, 80%, 65%, .8);
+        --color-pink-light: hsla(334, 100%, 77%, .8);
     }
 `;
 

@@ -20,7 +20,7 @@ const Container = styled.header`
 
 const Heading = styled.h1`
 	font-family: var(--font-secondary);
-	color: var(--color-pink);
+	color: var(--color-pink-light);
 `;
 
 export default Header;
