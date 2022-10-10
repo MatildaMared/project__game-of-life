@@ -5,7 +5,7 @@ import Button from "../Button";
 
 function GameBoard() {
 	const [numberOfRows, setNumberOfRows] = useState(16);
-	const { grid, toggleCell } = useGameBoard(numberOfRows);
+	const { grid, toggleCell, resetGame } = useGameBoard(numberOfRows);
 
 	return (
 		<Container>
@@ -27,7 +27,9 @@ function GameBoard() {
 			</Grid>
 			<ButtonContainer>
 				<Button onClick={() => 1}>Start Game</Button>
-				<Button secondary onClick={() => 1}>Reset Board</Button>
+				<Button secondary onClick={resetGame}>
+					Reset Board
+				</Button>
 			</ButtonContainer>
 		</Container>
 	);

@@ -8,6 +8,10 @@ function useGameBoard(numberOfRows: number) {
 	const [grid, setGrid] = useState<Grid>([]);
 	const [gameOfLife] = useState(() => new GameOfLife());
 
+	function resetGame() {
+		setGrid(gameOfLife.createInitialGrid(numberOfRows));
+	}
+
 	function toggleCell(position: Position) {
 		const newGrid = gameOfLife.toggleCell(grid, position);
 		setGrid(newGrid);
@@ -17,7 +21,7 @@ function useGameBoard(numberOfRows: number) {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
 	}, [numberOfRows, gameOfLife]);
 
-	return { grid, toggleCell };
+	return { grid, toggleCell, resetGame };
 }
 
 export default useGameBoard;
