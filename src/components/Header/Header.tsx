@@ -4,7 +4,7 @@ import styled from "styled-components";
 function Header() {
 	return (
 		<Container>
-			<Heading>Game of Life 🌱</Heading>
+			<Heading>Game of Life 💖</Heading>
 		</Container>
 	);
 }
@@ -20,6 +20,7 @@ const Container = styled.header`
 
 const Heading = styled.h1`
 	font-family: var(--font-secondary);
+	color: var(--color-pink);
 `;
 
 export default Header;
