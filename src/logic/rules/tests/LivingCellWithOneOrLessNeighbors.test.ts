@@ -2,7 +2,7 @@ import LivingCellWithOneOrLessNeighbors from "../LivingCellWithOneOrLessNeighbor
 
 describe("Living cell with one or less neighbors rule", () => {
 	test("only applies to living cells with one or less neighbors", () => {
-		const isAlive = false;
+		const isAlive = true;
 		let numberOfNeighbors = 0;
 		const rule = new LivingCellWithOneOrLessNeighbors();
 

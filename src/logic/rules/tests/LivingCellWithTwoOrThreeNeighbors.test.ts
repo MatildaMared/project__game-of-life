@@ -2,7 +2,7 @@ import LivingCellWithTwoOrThreeNeighbors from "../LivingCellWithTwoOrThreeNeighb
 
 describe("Living cell with two or three neighbors rule", () => {
 	test("rule only applies to living cells with two or three neighbors", () => {
-		const isAlive = false;
+		const isAlive = true;
 		let numberOfNeighbors = 2;
 		const rule = new LivingCellWithTwoOrThreeNeighbors();
 
