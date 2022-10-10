@@ -1,25 +1,22 @@
 import { Position } from "../../interfaces/Position";
+import { Grid } from "../../types/Grid";
 
 export class GameOfLife {
-	grid: number[][];
-
-	constructor(numberOfRows: number) {
-		this.grid = this.createInitialGrid(numberOfRows);
-	}
-
-	createInitialGrid(numberOfRows: number) {
-		const grid = [];
+	createInitialGrid(numberOfRows: number): Grid {
+		const grid: Grid = [];
 
 		for (let i = 0; i < numberOfRows; i++) {
 			grid.push(Array.from(Array(numberOfRows * 2), () => 0));
 		}
-		console.log(grid);
 		return grid;
 	}
 
-	toggleCell(position: Position) {
+	toggleCell(grid: Grid, position: Position): Grid {
 		const { row, column } = position;
-		console.log("Will update cell");
-		this.grid[row][column] = this.grid[row][column] === 0 ? 0 : 1;
+		const newGrid = [...grid];
+
+		newGrid[row][column] = newGrid[row][column] === 0 ? 1 : 0;
+
+		return newGrid;
 	}
 }

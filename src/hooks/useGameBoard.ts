@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Position } from "../interfaces/Position";
+import { GameOfLife } from "../logic/GameOfLife/GameOfLife";
 
 type Grid = number[][];
 
 function useGameBoard(numberOfRows: number) {
 	const [grid, setGrid] = useState<Grid>([]);
+	const [gameOfLife] = useState(() => new GameOfLife());
 
 	function toggleCell(position: Position) {
-		const { row, column } = position;
-		const newGrid = [...grid];
-
-		newGrid[row][column] = newGrid[row][column] === 0 ? 1 : 0;
+		const newGrid = gameOfLife.toggleCell(grid, position);
 		setGrid(newGrid);
 	}
 
-	function createInitialGrid(numberOfRows: number) {
-		const grid = [];
-
-		for (let i = 0; i < numberOfRows; i++) {
-			grid.push(Array.from(Array(numberOfRows * 2), () => 0));
-		}
-		console.log(grid);
-		return grid;
-	}
-
 	useEffect(() => {
-		setGrid(createInitialGrid(numberOfRows));
-	}, [numberOfRows]);
+		setGrid(gameOfLife.createInitialGrid(numberOfRows));
+	}, [numberOfRows, gameOfLife]);
 
 	return { grid, toggleCell };
 }
