@@ -34,7 +34,10 @@ function GameBoard() {
 				</Button>
 			</ButtonContainer>
 			<RangeContainer>
+				<RangeLabel htmlFor="grid-size">Grid Size</RangeLabel>
 				<RangeInput
+					name="grid-size"
+					id="grid-size"
 					type="range"
 					value={numberOfRows}
 					onChange={(e) => setNumberOfRows(+e.target.value)}
@@ -114,8 +117,17 @@ const ButtonContainer = styled.div`
 	gap: 16px;
 `;
 
-const RangeContainer = styled.div``;
+const RangeContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+`;
 
 const RangeInput = styled.input``;
+
+const RangeLabel = styled.label`
+	font-size: 0.875rem;
+`;
 
 export default GameBoard;
