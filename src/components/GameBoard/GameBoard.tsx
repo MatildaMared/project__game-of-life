@@ -1,33 +1,64 @@
 import React, { useEffect, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
+import { Position } from "../../interfaces/Position";
+import { GameOfLife } from "../../logic/GameOfLife/GameOfLife";
+import DeadCellWithThreeNeighbors from "../../logic/rules/DeadCellWithThreeNeighbors";
+import LivingCellWithFourOrMoreNeighbors from "../../logic/rules/LivingCellWithFourOrMoreNeighbors";
+import LivingCellWithOneOrLessNeighbors from "../../logic/rules/LivingCellWithOneOrLessNeighbors";
+import LivingCellWithTwoOrThreeNeighbors from "../../logic/rules/LivingCellWithTwoOrThreeNeighbors";
+import { Grid as IGrid } from "../../types/Grid";
 import Button from "../Button";
 
+const gameOfLife = new GameOfLife([
+	new DeadCellWithThreeNeighbors(),
+	new LivingCellWithFourOrMoreNeighbors(),
+	new LivingCellWithTwoOrThreeNeighbors(),
+	new LivingCellWithOneOrLessNeighbors(),
+]);
+
 function GameBoard() {
-	const [numberOfRows, setNumberOfRows] = useState(20);
+	const [numberOfRows, setNumberOfRows] = useState(4);
 	const [isRunning, setIsRunning] = useState(false);
-	const { grid, toggleCell, resetGame, calculateNextFrame } =
-		useGameBoard(numberOfRows);
+	const [grid, setGrid] = useState<IGrid>([]);
+	// const { grid, toggleCell, resetGame, calculateNextFrame } =
+	// 	useGameBoard(numberOfRows);
 	const gridRef = React.useRef<HTMLDivElement>(null);
 	const gridWrapperRef = React.useRef<HTMLDivElement>(null);
 
+	useEffect(() => {
+		setGrid(gameOfLife.createInitialGrid(numberOfRows));
+	}, [numberOfRows]);
+
+	function toggleCell(position: Position) {
+		const newGrid = gameOfLife.toggleCell(grid, position);
+		setGrid(newGrid);
+	}
+
 	function resetBoard() {
 		setIsRunning(false);
-		resetGame();
+		// resetGame();
 	}
 
 	useEffect(() => {
-		if (isRunning) {
-			const interval = setInterval(() => {
-				gridRef.current && gridRef.current.classList.add("animate");
-				gridWrapperRef.current &&
-					gridWrapperRef.current.classList.add("animate");
-				calculateNextFrame();
-			}, 750);
+		console.log("Grid was changed!");
+	}, [grid]);
 
-			return () => {
-				clearInterval(interval);
-			};
+	useEffect(() => {
+		if (isRunning) {
+			console.log("This is what the grid looks like now: ", grid);
+			const newGrid = gameOfLife.calculateNextFrame(grid);
+			// console.log("This is what the new grid looks like", newGrid);
+			// calculateNextFrame();
+			// const interval = setInterval(() => {
+			// 	gridRef.current && gridRef.current.classList.add("animate");
+			// 	gridWrapperRef.current &&
+			// 		gridWrapperRef.current.classList.add("animate");
+			// 	calculateNextFrame(grid);
+			// }, 1000);
+			// return () => {
+			// 	clearInterval(interval);
+			// };
 		}
 
 		if (!isRunning) {
@@ -35,7 +66,7 @@ function GameBoard() {
 			gridWrapperRef.current &&
 				gridWrapperRef.current.classList.remove("animate");
 		}
-	}, [isRunning, grid, calculateNextFrame]);
+	}, [isRunning, grid]);
 
 	return (
 		<Container>
@@ -73,7 +104,7 @@ function GameBoard() {
 					type="range"
 					value={numberOfRows}
 					onChange={(e) => setNumberOfRows(+e.target.value)}
-					min={16}
+					min={4}
 					max={32}
 					step={4}
 				/>

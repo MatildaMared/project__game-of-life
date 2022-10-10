@@ -6,6 +6,9 @@ export default class DeadCellWithThreeNeighbors implements Rule {
 	}
 
 	shouldLive(numberOfNeighbors: number): boolean {
-		return numberOfNeighbors === 3;
+		if (numberOfNeighbors === 3) {
+			return true;
+		}
+		return false;
 	}
 }

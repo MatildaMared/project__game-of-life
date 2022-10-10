@@ -6,6 +6,9 @@ export default class LivingCellWithFourOrMoreNeighbors implements Rule {
 	}
 
 	shouldLive(numberOfNeighbors: number): boolean {
-		return !(numberOfNeighbors >= 4);
+		if (numberOfNeighbors >= 4) {
+			return false;
+		}
+		return true;
 	}
 }

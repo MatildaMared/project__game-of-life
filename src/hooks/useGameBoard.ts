@@ -30,8 +30,14 @@ function useGameBoard(numberOfRows: number) {
 	}
 
 	function calculateNextFrame() {
-		const newGrid = gameOfLife.calculateNextFrame(grid);
-		setGrid(newGrid);
+		console.log("Calculating next frame");
+		setGrid(() => gameOfLife.calculateNextFrame(grid));
+		// const oldGrid = [...grid];
+		// console.log("This is what the grid looks like now: ", oldGrid);
+		// const newGrid = gameOfLife.calculateNextFrame([...grid]);
+		// console.log("This is what the next frame looks like: ", newGrid);
+		// const newGrid = gameOfLife.calculateNextFrame(grid);
+		// setGrid(newGrid);
 	}
 
 	useEffect(() => {

@@ -6,6 +6,9 @@ export default class LivingCellWithOneOrLessNeighbors implements Rule {
 	}
 
 	shouldLive(numberOfNeighbors: number): boolean {
-		return !(numberOfNeighbors <= 1);
+		if (numberOfNeighbors <= 1) {
+			return false;
+		}
+		return true;
 	}
 }
