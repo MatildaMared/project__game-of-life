@@ -25,13 +25,4 @@ describe("Living cell with one or less neighbors rule", () => {
 		expect(rule.applies(isAlive)).toBe(true);
 		expect(rule.shouldLive(numberOfNeighbors)).toBe(false);
 	});
-
-	test("a living cell with two neighbors survives", () => {
-		const isAlive = true;
-		const numberOfNeighbors = 2;
-		const rule = new LivingCellWithOneOrLessNeighbors();
-
-		expect(rule.applies(isAlive)).toBe(true);
-		expect(rule.shouldLive(numberOfNeighbors)).toBe(true);
-	});
 });

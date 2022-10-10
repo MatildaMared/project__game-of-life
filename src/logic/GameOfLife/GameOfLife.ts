@@ -3,6 +3,12 @@ import { Rule } from "../../interfaces/Rule";
 import { Grid } from "../../types/Grid";
 
 export class GameOfLife {
+	rules: Rule[];
+
+	constructor(rules: Rule[]) {
+		this.rules = rules;
+	}
+
 	createInitialGrid(numberOfRows: number): Grid {
 		const grid: Grid = [];
 
@@ -21,16 +27,35 @@ export class GameOfLife {
 		return newGrid;
 	}
 
-	applyRules(
-		numberOfNeighbors: number,
-		isAlive: boolean,
-		rules: Rule[]
-	): boolean {
-		return false;
+	applyRules(numberOfNeighbors: number, isAlive: boolean): boolean {
+		let shouldLive = false;
+
+		for (const rule of this.rules) {
+			if (rule.applies(isAlive)) {
+				shouldLive = rule.shouldLive(numberOfNeighbors);
+				break;
+			}
+		}
+
+		return shouldLive;
 	}
 
 	calculateNextFrame(currentGrid: Grid): Grid {
 		const newGrid = [...currentGrid];
+
+		for (let row = 0; row < currentGrid.length; row++) {
+			for (let column = 0; column < currentGrid[row].length; column++) {
+				const numberOfNeighbors = this.calculateNumberOfNeighbors(currentGrid, {
+					row,
+					column,
+				});
+				const isAlive = currentGrid[row][column] === 1;
+				const shouldLive = this.applyRules(numberOfNeighbors, isAlive);
+				newGrid[row][column] = shouldLive ? 1 : 0;
+			}
+		}
+
+		console.log(newGrid);
 
 		return newGrid;
 	}
