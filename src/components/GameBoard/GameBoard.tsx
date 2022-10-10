@@ -64,7 +64,7 @@ interface GridProps {
 }
 
 const GridWrapper = styled.div`
-	border: 2px solid var(--color-gray-700);
+	border: 3px solid var(--color-gray-700);
 	width: 1200px;
 	max-width: calc(100% - 32px);
 `;

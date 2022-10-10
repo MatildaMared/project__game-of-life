@@ -30,7 +30,7 @@ const Container = styled.button<ButtonProps>`
 	color: #fff;
 	font-family: var(--font-secondary);
 	font-size: 14px;
-	padding: 0px 8px 2px 8px;
+	padding: 1px 8px 2px 8px;
 	border-radius: 2px;
 	cursor: pointer;
 	position: relative;
