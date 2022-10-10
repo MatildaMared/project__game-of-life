@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
 import Button from "../Button";
 
+const gameTickDuration = 1000;
+
 function GameBoard() {
 	const [numberOfRows, setNumberOfRows] = useState(20);
-	const { grid, toggleCell, resetGame, toggleGame, isRunning } =
+	const [isRunning, setIsRunning] = useState(false);
+	const { grid, toggleCell, resetGame, calculateNextFrame } =
 		useGameBoard(numberOfRows);
+	const gridRef = React.useRef<HTMLDivElement>(null);
+	const gridWrapperRef = React.useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (isRunning) {
+			const interval = setInterval(() => {
+				gridRef.current && gridRef.current.classList.add("animate");
+				gridWrapperRef.current &&
+					gridWrapperRef.current.classList.add("animate");
+				calculateNextFrame();
+			}, gameTickDuration);
+
+			return () => {
+				clearInterval(interval);
+			};
+		}
+
+		if (!isRunning) {
+			gridRef.current && gridRef.current.classList.remove("animate");
+			gridWrapperRef.current &&
+				gridWrapperRef.current.classList.remove("animate");
+		}
+	}, [isRunning, grid, calculateNextFrame]);
 
 	return (
 		<Container>
@@ -14,8 +40,8 @@ function GameBoard() {
 			<Introduction>
 				Click the explanation button to learn the rules and have fun playing!
 			</Introduction>
-			<GridWrapper>
-				<Grid numberOfRows={numberOfRows}>
+			<GridWrapper ref={gridWrapperRef}>
+				<Grid ref={gridRef} numberOfRows={numberOfRows}>
 					{grid &&
 						grid.map((rows, i) =>
 							rows.map((col, j) => (
@@ -29,7 +55,7 @@ function GameBoard() {
 				</Grid>
 			</GridWrapper>
 			<ButtonContainer>
-				<Button onClick={toggleGame}>
+				<Button onClick={() => setIsRunning(!isRunning)}>
 					{isRunning ? "Stop" : "Start"} Game
 				</Button>
 				<Button secondary onClick={resetGame}>
@@ -53,6 +79,28 @@ function GameBoard() {
 	);
 }
 
+const flashAnimation = keyframes`
+	  0% {
+		transform: scale(1);
+	  } 50% {
+		  transform: scale(1.01);
+		  filter: blur(8px);
+	  } 100% {
+		transform: scale(1);
+		filter: blur(0);
+	  }
+`;
+
+const borderAnimation = keyframes`
+		  0% {
+		border-color: var(--color-gray-700);
+	  } 50% {
+		  border-color: var(--color-pink);
+	  } 100% {
+		border-color: var(--color-gray-700);
+	  }
+`;
+
 const Container = styled.div`
 	margin-top: 32px;
 	display: flex;
@@ -62,15 +110,19 @@ const Container = styled.div`
 	max-width: 100%;
 `;
 
-interface GridProps {
-	numberOfRows: number;
-}
-
 const GridWrapper = styled.div`
 	border: 3px solid var(--color-gray-700);
 	width: 1200px;
 	max-width: calc(100% - 32px);
+
+	&.animate {
+		animation: ${borderAnimation} ${gameTickDuration}ms ease-in-out infinite;
+	}
 `;
+
+interface GridProps {
+	numberOfRows: number;
+}
 
 const Grid = styled.div<GridProps>`
 	background-color: var(--color-gray-700);
@@ -78,6 +130,25 @@ const Grid = styled.div<GridProps>`
 	gap: 2px;
 	grid-template-columns: repeat(${(props) => props.numberOfRows * 2}, 1fr);
 	aspect-ratio: 2/1;
+	position: relative;
+
+	&.animate {
+		&::before {
+			animation: ${flashAnimation} ${gameTickDuration}ms ease-in-out infinite;
+		}
+	}
+
+	&::before {
+		z-index: -1;
+		content: "";
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: var(--color-pink-dark);
+		opacity: 0.5;
+	}
 `;
 
 const Cell = styled.button`

@@ -5,12 +5,10 @@ import DeadCellWithThreeNeighbors from "../logic/rules/DeadCellWithThreeNeighbor
 import LivingCellWithFourOrMoreNeighbors from "../logic/rules/LivingCellWithFourOrMoreNeighbors";
 import LivingCellWithOneOrLessNeighbors from "../logic/rules/LivingCellWithOneOrLessNeighbors";
 import LivingCellWithTwoOrThreeNeighbors from "../logic/rules/LivingCellWithTwoOrThreeNeighbors";
-
-type Grid = number[][];
+import { Grid } from "../types/Grid";
 
 function useGameBoard(numberOfRows: number) {
 	const [grid, setGrid] = useState<Grid>([]);
-	const [isRunning, setIsRunning] = useState(false);
 
 	const [gameOfLife] = useState(
 		() =>
@@ -24,7 +22,6 @@ function useGameBoard(numberOfRows: number) {
 
 	function resetGame() {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
-		setIsRunning(false);
 	}
 
 	function toggleCell(position: Position) {
@@ -32,24 +29,16 @@ function useGameBoard(numberOfRows: number) {
 		setGrid(newGrid);
 	}
 
-	function toggleGame() {
-		setIsRunning(() => !isRunning);
+	function calculateNextFrame() {
+		const newGrid = gameOfLife.calculateNextFrame(grid);
+		setGrid(newGrid);
 	}
 
 	useEffect(() => {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
 	}, [numberOfRows, gameOfLife]);
 
-	useEffect(() => {
-		if (isRunning) {
-			const interval = setInterval(() => {
-				setGrid(gameOfLife.calculateNextFrame(grid));
-			}, 750);
-			return () => clearInterval(interval);
-		}
-	}, [isRunning, grid, gameOfLife]);
-
-	return { grid, toggleCell, resetGame, toggleGame, isRunning };
+	return { grid, toggleCell, resetGame, calculateNextFrame };
 }
 
 export default useGameBoard;
