@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
+import Button from "../Button";
 
 function GameBoard() {
 	const [numberOfRows, setNumberOfRows] = useState(16);
@@ -24,12 +25,20 @@ function GameBoard() {
 						))
 					)}
 			</Grid>
+			<ButtonContainer>
+				<Button onClick={() => 1}>Start Game</Button>
+				<Button secondary onClick={() => 1}>Reset Board</Button>
+			</ButtonContainer>
 		</Container>
 	);
 }
 
 const Container = styled.div`
 	margin-top: 32px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
 `;
 
 interface GridProps {
@@ -61,7 +70,7 @@ const Cell = styled.button`
 	}
 
 	&:focus {
-		outline: 2px solid var(--color-pink-transparent);
+		outline: 2px solid var(--color-pink-light);
 		outline-offset: 2px;
 		z-index: 1;
 	}
@@ -69,17 +78,19 @@ const Cell = styled.button`
 
 const WelcomeText = styled.h3`
 	font-family: var(--font-secondary);
-	margin: 0 auto;
 	text-align: center;
-	margin-bottom: 8px;
+	margin-bottom: -8px;
 `;
 
 const Introduction = styled.p`
 	text-align: center;
 	width: 30ch;
-	margin: 0 auto;
-	margin-bottom: 16px;
 	color: var(--color-gray-300);
+`;
+
+const ButtonContainer = styled.div`
+	display: flex;
+	gap: 16px;
 `;
 
 export default GameBoard;
