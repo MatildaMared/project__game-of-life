@@ -3,8 +3,6 @@ import styled, { css, keyframes } from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
 import Button from "../Button";
 
-const gameTickDuration = 1000;
-
 function GameBoard() {
 	const [numberOfRows, setNumberOfRows] = useState(20);
 	const [isRunning, setIsRunning] = useState(false);
@@ -13,6 +11,11 @@ function GameBoard() {
 	const gridRef = React.useRef<HTMLDivElement>(null);
 	const gridWrapperRef = React.useRef<HTMLDivElement>(null);
 
+	function resetBoard() {
+		setIsRunning(false);
+		resetGame();
+	}
+
 	useEffect(() => {
 		if (isRunning) {
 			const interval = setInterval(() => {
@@ -20,7 +23,7 @@ function GameBoard() {
 				gridWrapperRef.current &&
 					gridWrapperRef.current.classList.add("animate");
 				calculateNextFrame();
-			}, gameTickDuration);
+			}, 750);
 
 			return () => {
 				clearInterval(interval);
@@ -58,7 +61,7 @@ function GameBoard() {
 				<Button onClick={() => setIsRunning(!isRunning)}>
 					{isRunning ? "Stop" : "Start"} Game
 				</Button>
-				<Button secondary onClick={resetGame}>
+				<Button secondary onClick={resetBoard}>
 					Reset Board
 				</Button>
 			</ButtonContainer>
@@ -114,9 +117,10 @@ const GridWrapper = styled.div`
 	border: 3px solid var(--color-gray-700);
 	width: 1200px;
 	max-width: calc(100% - 32px);
+	margin-bottom: 16px;
 
 	&.animate {
-		animation: ${borderAnimation} ${gameTickDuration}ms ease-in-out infinite;
+		animation: ${borderAnimation} 1750ms ease-in-out infinite;
 	}
 `;
 
@@ -134,7 +138,7 @@ const Grid = styled.div<GridProps>`
 
 	&.animate {
 		&::before {
-			animation: ${flashAnimation} ${gameTickDuration}ms ease-in-out infinite;
+			animation: ${flashAnimation} 1750ms ease-in-out infinite;
 		}
 	}
 
