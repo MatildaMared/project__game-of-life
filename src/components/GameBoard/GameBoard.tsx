@@ -119,7 +119,58 @@ const RangeContainer = styled.div`
 	gap: 8px;
 `;
 
-const RangeInput = styled.input``;
+const RangeInput = styled.input`
+	-webkit-appearance: none;
+	background: transparent;
+	cursor: pointer;
+	width: 10rem;
+
+	&::-moz-range-track {
+		background: var(--color-gray-800);
+		border-radius: 1rem;
+		height: 0.5rem;
+	}
+
+	&::-webkit-slider-runnable-track {
+		background: var(--color-gray-800);
+		border-radius: 1rem;
+		height: 0.5rem;
+	}
+
+	&::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		background: var(--color-pink-dark);
+		border-radius: 50%;
+		cursor: pointer;
+		height: 1rem;
+		width: 1rem;
+		margin-top: -4px;
+	}
+
+	&::-moz-range-thumb {
+		border: none;
+		background: var(--color-pink-dark);
+		border-radius: 50%;
+		cursor: pointer;
+		height: 1rem;
+		width: 1rem;
+		margin-top: -4px;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	&:focus::-webkit-slider-thumb {
+		outline: 2px solid var(--color-pink-dark);
+		outline-offset: 4px;
+	}
+
+	&:focus::-moz-range-thumb {
+		outline: 2px solid var(--color-pink-dark);
+		outline-offset: 4px;
+	}
+`;
 
 const RangeLabel = styled.label`
 	font-size: 0.875rem;
