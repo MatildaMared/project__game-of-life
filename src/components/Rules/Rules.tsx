@@ -125,6 +125,10 @@ const RulesContainer = styled.div`
 	opacity: 0;
 	animation: ${fadeIn} 1000ms ease-out forwards;
 	animation-delay: 1250ms;
+
+	&:nth-of-type(2) {
+		animation-delay: 1500ms;
+	}
 `;
 
 const RuleHeading = styled.h2`
