@@ -73,6 +73,7 @@ const Heading = styled.h1`
 const Instructions = styled.p`
 	font-size: 0.875rem;
 	width: 75ch;
+	max-width: 90%;
 	color: var(--color-gray-200);
 	text-align: center;
 `;

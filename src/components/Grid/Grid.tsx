@@ -108,6 +108,7 @@ const GridElement = styled.div<GridProps>`
 	grid-template-columns: repeat(${(props) => props.numberOfRows * 2}, 1fr);
 	aspect-ratio: 2/1;
 	position: relative;
+	overflow: hidden;
 
 	&.animate {
 		&::before {

@@ -54,7 +54,7 @@ function GameBoard() {
 						value={numberOfRows}
 						onChange={(e) => setNumberOfRows(+e.target.value)}
 						min={8}
-						max={32}
+						max={28}
 						step={4}
 					/>
 				</RangeContainer>
