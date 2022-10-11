@@ -4,7 +4,7 @@ import Button from "../Button";
 import Rules from "../Rules";
 
 function Header() {
-	const [showRules, setShowRules] = useState(true);
+	const [showRules, setShowRules] = useState(false);
 
 	function toggleRules() {
 		setShowRules(!showRules);
