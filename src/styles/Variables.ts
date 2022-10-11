@@ -5,7 +5,7 @@ const Variables = createGlobalStyle`
         --font-primary: 'Open Sans', sans-serif;
         --font-secondary: 'Silkscreen', cursive;
 
-        --color-background: hsla(277, 6%, 12%, 1.0);
+        --color-background: hsla(277, 6%, 11%, 1.0);
         --color-text: hsla(277, 6%, 85%, 1.0);
 
         --color-gray-900: hsla(280, 4%, 13%, 1.0);

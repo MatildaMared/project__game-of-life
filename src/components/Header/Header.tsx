@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../Button";
+import Rules from "../Rules";
 
 function Header() {
+	const [showRules, setShowRules] = useState(true);
+
+	function toggleRules() {
+		setShowRules(!showRules);
+	}
+
+	useEffect(() => {
+		if (showRules) {
+			document.body.style.overflow = "hidden";
+		}
+
+		return () => {
+			document.body.style.overflow = "visible";
+		};
+	}, [showRules]);
+
 	return (
-		<Container>
-			<Heading>Welcome to the Game of Life. 🌱</Heading>
-			<Instructions>
-				Place your cells using the mouse or keyboard and press the start button
-				to start the simulation. Click the rules button to learn the rules. Have
-				fun!
-			</Instructions>
-			<Button secondary onClick={() => 1}>
-				Show rules
-			</Button>
-		</Container>
+		<>
+			<Container>
+				<Heading>Welcome to the Game of Life. 🌱</Heading>
+				<Instructions>
+					Place your cells using the mouse or keyboard and press the start
+					button to start the simulation. Click the rules button to learn the
+					rules. Have fun!
+				</Instructions>
+				<Button secondary onClick={toggleRules}>
+					Show rules
+				</Button>
+			</Container>
+			{showRules && <Rules toggleRules={toggleRules} />}
+		</>
 	);
 }
 
