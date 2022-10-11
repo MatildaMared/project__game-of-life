@@ -3,10 +3,12 @@ import styled from "styled-components";
 import useGameBoard from "../../hooks/useGameBoard";
 import Grid from "../Grid";
 import Button from "../Button";
+import { simulationSpeedInMilliseconds } from "../../helpers/simulationSpeedInMilliseconds";
 
 function GameBoard() {
 	const [numberOfRows, setNumberOfRows] = useState(16);
 	const [isRunning, setIsRunning] = useState(false);
+	const [simulationSpeed, setSimulationSpeed] = useState(7);
 	const { grid, toggleCell, resetGame, calculateNextFrame } =
 		useGameBoard(numberOfRows);
 
@@ -19,12 +21,12 @@ function GameBoard() {
 		if (isRunning) {
 			const interval = setInterval(() => {
 				calculateNextFrame();
-			}, 500);
+			}, simulationSpeedInMilliseconds(simulationSpeed));
 			return () => {
 				clearInterval(interval);
 			};
 		}
-	}, [isRunning, calculateNextFrame]);
+	}, [isRunning, calculateNextFrame, simulationSpeed]);
 
 	return (
 		<Container>
@@ -57,6 +59,17 @@ function GameBoard() {
 					min={8}
 					max={32}
 					step={4}
+				/>
+				<RangeLabel htmlFor="simulation-speed">Speed</RangeLabel>
+				<RangeInput
+					name="simulation-speed"
+					id="simulation-speed"
+					type="range"
+					value={simulationSpeed}
+					onChange={(e) => setSimulationSpeed(+e.target.value)}
+					min={1}
+					max={10}
+					step={1}
 				/>
 			</RangeContainer>
 		</Container>
