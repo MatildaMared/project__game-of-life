@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Position } from "../../interfaces/Position";
 import { Grid as IGrid } from "../../types/Grid";
+import Cell from "../Cell";
 
 interface Props {
 	isRunning: boolean;
@@ -43,7 +44,9 @@ function Grid({ isRunning, numberOfRows, grid, toggleCell }: Props) {
 							<Cell
 								className={col === 0 ? "dead" : "alive"}
 								key={`${i}-${j}`}
-								onClick={() => toggleCell({ row: i, column: j })}
+								row={i}
+								column={j}
+								toggleCell={toggleCell}
 							/>
 						))
 					)}
@@ -118,29 +121,6 @@ const GridElement = styled.div<GridProps>`
 		left: 0;
 		background-color: var(--color-pink-dark);
 		opacity: 0.5;
-	}
-`;
-
-const Cell = styled.button`
-	width: 100%;
-	aspect-ratio: 1/1;
-	background-color: var(--color-gray-900);
-	transition: background-color 250ms;
-	cursor: pointer;
-	border: none;
-
-	&:hover {
-		background-color: var(--color-gray-800);
-	}
-
-	&.alive {
-		background-color: var(--color-pink);
-	}
-
-	&:focus {
-		outline: 2px solid var(--color-pink-light);
-		outline-offset: 2px;
-		z-index: 1;
 	}
 `;
 
