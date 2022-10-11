@@ -5,12 +5,13 @@ interface Props {
 	children: React.ReactNode;
 	secondary?: boolean;
 	onClick: () => void;
+	style?: React.CSSProperties;
 }
 
 function Button(props: Props) {
-	const { children, secondary = false, onClick } = props;
+	const { children, secondary = false, onClick, style } = props;
 	return (
-		<Container secondary={secondary} onClick={onClick}>
+		<Container style={style} secondary={secondary} onClick={onClick}>
 			{children}
 		</Container>
 	);

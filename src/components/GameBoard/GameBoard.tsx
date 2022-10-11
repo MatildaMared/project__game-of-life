@@ -30,10 +30,6 @@ function GameBoard() {
 
 	return (
 		<Container>
-			<WelcomeText>Welcome to the game of life.</WelcomeText>
-			<Introduction>
-				Click the explanation button to learn the rules and have fun playing!
-			</Introduction>
 			<Grid
 				numberOfRows={numberOfRows}
 				isRunning={isRunning}
@@ -89,26 +85,31 @@ const Container = styled.div`
 	max-width: 100%;
 `;
 
-const WelcomeText = styled.h3`
-	font-family: var(--font-secondary);
-	text-align: center;
-	margin-bottom: -8px;
-`;
-
-const Introduction = styled.p`
-	text-align: center;
-	width: 30ch;
-	color: var(--color-gray-300);
-`;
-
 const ButtonsContainer = styled.div`
 	display: flex;
 	gap: 16px;
 `;
 
 const RangeInputsContainer = styled.div`
+	border: 1px solid var(--color-gray-700);
+	padding: 16px;
+	border-radius: 4px;
 	display: flex;
 	gap: 16px;
+	margin-top: 24px;
+	position: relative;
+
+	&::before {
+		content: "Settings";
+		font-family: var(--font-secondary);
+		background-color: var(--color-background);
+		color: var(--color-gray-100);
+		padding: 8px;
+		position: absolute;
+		top: -22px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 `;
 
 const RangeContainer = styled.div`
