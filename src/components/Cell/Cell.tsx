@@ -25,6 +25,7 @@ const Container = styled.button`
 	transition: background-color 250ms;
 	cursor: pointer;
 	border: none;
+	border-radius: 2px;
 
 	&:hover {
 		background-color: var(--color-gray-800);
@@ -36,8 +37,7 @@ const Container = styled.button`
 
 	&:focus {
 		outline: 2px solid var(--color-pink-light);
-		outline-offset: 3px;
-		z-index: 1;
+		outline-offset: -2px;
 		border-radius: 1px;
 	}
 `;
