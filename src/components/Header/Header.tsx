@@ -44,6 +44,10 @@ const Heading = styled.h1`
 	margin-top: 8px;
 	font-family: var(--font-secondary);
 	font-size: 1.125rem;
+
+	@media (min-width: 600px) {
+		font-size: 1.375rem;
+	}
 `;
 
 const Instructions = styled.p`
