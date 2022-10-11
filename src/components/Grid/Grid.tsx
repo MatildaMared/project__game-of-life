@@ -84,12 +84,16 @@ const borderAnimation = keyframes`
 
 const Container = styled.div`
 	border: 3px solid var(--color-gray-700);
-	width: 1200px;
+	width: 1050px;
 	max-width: calc(100% - 32px);
 	margin-bottom: 16px;
 
 	&.animate {
 		animation: ${borderAnimation} 1750ms ease-in-out infinite;
+	}
+
+	@media (min-width: 1800px) {
+		width: 1300px;
 	}
 `;
 

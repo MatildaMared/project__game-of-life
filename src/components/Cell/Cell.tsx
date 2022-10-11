@@ -36,8 +36,9 @@ const Container = styled.button`
 
 	&:focus {
 		outline: 2px solid var(--color-pink-light);
-		outline-offset: 2px;
+		outline-offset: 3px;
 		z-index: 1;
+		border-radius: 1px;
 	}
 `;
 

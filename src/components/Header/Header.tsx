@@ -29,12 +29,19 @@ const Container = styled.header`
 	border-bottom: 1px solid var(--color-gray-800);
 
 	& button {
-		position: absolute;
-		right: 32px;
+		margin-top: 8px;
+	}
+
+	@media (min-width: 1000px) {
+		& button {
+			position: absolute;
+			right: 32px;
+		}
 	}
 `;
 
 const Heading = styled.h1`
+	margin-top: 8px;
 	font-family: var(--font-secondary);
 	font-size: 1.125rem;
 `;
