@@ -18,55 +18,45 @@ const gameOfLife = new GameOfLife([
 ]);
 
 function GameBoard() {
-	const [numberOfRows, setNumberOfRows] = useState(4);
+	const [numberOfRows, setNumberOfRows] = useState(16);
 	const [isRunning, setIsRunning] = useState(false);
-	const [grid, setGrid] = useState<IGrid>([]);
-	// const { grid, toggleCell, resetGame, calculateNextFrame } =
-	// 	useGameBoard(numberOfRows);
+	const { grid, toggleCell, resetGame, calculateNextFrame } =
+		useGameBoard(numberOfRows);
 	const gridRef = React.useRef<HTMLDivElement>(null);
 	const gridWrapperRef = React.useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		setGrid(gameOfLife.createInitialGrid(numberOfRows));
-	}, [numberOfRows]);
-
-	function toggleCell(position: Position) {
-		const newGrid = gameOfLife.toggleCell(grid, position);
-		setGrid(newGrid);
-	}
-
 	function resetBoard() {
 		setIsRunning(false);
-		// resetGame();
+		resetGame();
 	}
 
-	useEffect(() => {
-		console.log("Grid was changed!");
-	}, [grid]);
+	function startAnimation() {
+		gridRef.current && gridRef.current.classList.add("animate");
+		gridWrapperRef.current && gridWrapperRef.current.classList.add("animate");
+	}
+
+	function stopAnimation() {
+		gridRef.current && gridRef.current.classList.remove("animate");
+		gridWrapperRef.current &&
+			gridWrapperRef.current.classList.remove("animate");
+	}
 
 	useEffect(() => {
 		if (isRunning) {
-			console.log("This is what the grid looks like now: ", grid);
-			const newGrid = gameOfLife.calculateNextFrame(grid);
-			// console.log("This is what the new grid looks like", newGrid);
-			// calculateNextFrame();
-			// const interval = setInterval(() => {
-			// 	gridRef.current && gridRef.current.classList.add("animate");
-			// 	gridWrapperRef.current &&
-			// 		gridWrapperRef.current.classList.add("animate");
-			// 	calculateNextFrame(grid);
-			// }, 1000);
-			// return () => {
-			// 	clearInterval(interval);
-			// };
+			const interval = setInterval(() => {
+				console.log("Tick");
+				startAnimation();
+				calculateNextFrame();
+			}, 1000);
+			return () => {
+				clearInterval(interval);
+			};
 		}
 
 		if (!isRunning) {
-			gridRef.current && gridRef.current.classList.remove("animate");
-			gridWrapperRef.current &&
-				gridWrapperRef.current.classList.remove("animate");
+			stopAnimation();
 		}
-	}, [isRunning, grid]);
+	}, [isRunning, calculateNextFrame]);
 
 	return (
 		<Container>
@@ -104,7 +94,7 @@ function GameBoard() {
 					type="range"
 					value={numberOfRows}
 					onChange={(e) => setNumberOfRows(+e.target.value)}
-					min={4}
+					min={8}
 					max={32}
 					step={4}
 				/>
@@ -151,7 +141,7 @@ const GridWrapper = styled.div`
 	margin-bottom: 16px;
 
 	&.animate {
-		animation: ${borderAnimation} 1750ms ease-in-out infinite;
+		animation: ${borderAnimation} 1500ms ease-in-out infinite;
 	}
 `;
 
@@ -169,7 +159,7 @@ const Grid = styled.div<GridProps>`
 
 	&.animate {
 		&::before {
-			animation: ${flashAnimation} 1750ms ease-in-out infinite;
+			animation: ${flashAnimation} 1500ms ease-in-out infinite;
 		}
 	}
 

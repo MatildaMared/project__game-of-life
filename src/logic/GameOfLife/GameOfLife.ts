@@ -41,7 +41,7 @@ export class GameOfLife {
 	}
 
 	calculateNextFrame(currentGrid: Grid): Grid {
-		const newGrid = [...currentGrid];
+		const newGrid = JSON.parse(JSON.stringify(currentGrid));
 
 		for (let row = 0; row < currentGrid.length; row++) {
 			for (let column = 0; column < currentGrid[row].length; column++) {
@@ -55,9 +55,82 @@ export class GameOfLife {
 			}
 		}
 
-		console.log(newGrid);
-
 		return newGrid;
+	}
+
+	calculateNumberOfNeighbors(grid: Grid, position: Position): number {
+		const { row, column } = position;
+		let numberOfNeighbors = 0;
+
+		switch (row) {
+			case 0:
+				switch (column) {
+					case 0:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForTopLeftCorner(
+							grid,
+							position
+						);
+						break;
+					case grid[row].length - 1:
+						numberOfNeighbors =
+							this.calculateNumberOfNeighborsForTopRightCorner(grid, position);
+						break;
+					default:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForTopEdge(
+							grid,
+							position
+						);
+						break;
+				}
+				break;
+			case grid.length - 1:
+				switch (column) {
+					case 0:
+						numberOfNeighbors =
+							this.calculateNumberOfNeighborsForBottomLeftCorner(
+								grid,
+								position
+							);
+						break;
+					case grid[row].length - 1:
+						numberOfNeighbors =
+							this.calculateNumberOfNeighborsForBottomRightCorner(
+								grid,
+								position
+							);
+						break;
+					default:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForBottomEdge(
+							grid,
+							position
+						);
+						break;
+				}
+				break;
+			default:
+				switch (column) {
+					case 0:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForLeftEdge(
+							grid,
+							position
+						);
+						break;
+					case grid[row].length - 1:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForRightEdge(
+							grid,
+							position
+						);
+						break;
+					default:
+						numberOfNeighbors = this.calculateNumberOfNeighborsForCenter(
+							grid,
+							position
+						);
+						break;
+				}
+		}
+
+		return numberOfNeighbors;
 	}
 
 	private calculateNumberOfNeighborsForTopLeftCorner(
@@ -198,81 +271,6 @@ export class GameOfLife {
 		grid[row + 1][column - 1] === 1 && numberOfNeighbors++;
 		grid[row + 1][column] === 1 && numberOfNeighbors++;
 		grid[row + 1][column + 1] === 1 && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	calculateNumberOfNeighbors(grid: Grid, position: Position): number {
-		const { row, column } = position;
-		let numberOfNeighbors = 0;
-
-		switch (row) {
-			case 0:
-				switch (column) {
-					case 0:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForTopLeftCorner(
-							grid,
-							position
-						);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForTopRightCorner(grid, position);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForTopEdge(
-							grid,
-							position
-						);
-						break;
-				}
-				break;
-			case grid.length - 1:
-				switch (column) {
-					case 0:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForBottomLeftCorner(
-								grid,
-								position
-							);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForBottomRightCorner(
-								grid,
-								position
-							);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForBottomEdge(
-							grid,
-							position
-						);
-						break;
-				}
-				break;
-			default:
-				switch (column) {
-					case 0:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForLeftEdge(
-							grid,
-							position
-						);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForRightEdge(
-							grid,
-							position
-						);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForCenter(
-							grid,
-							position
-						);
-						break;
-				}
-		}
 
 		return numberOfNeighbors;
 	}

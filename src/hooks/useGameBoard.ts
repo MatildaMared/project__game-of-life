@@ -7,18 +7,15 @@ import LivingCellWithOneOrLessNeighbors from "../logic/rules/LivingCellWithOneOr
 import LivingCellWithTwoOrThreeNeighbors from "../logic/rules/LivingCellWithTwoOrThreeNeighbors";
 import { Grid } from "../types/Grid";
 
+const gameOfLife = new GameOfLife([
+	new DeadCellWithThreeNeighbors(),
+	new LivingCellWithFourOrMoreNeighbors(),
+	new LivingCellWithTwoOrThreeNeighbors(),
+	new LivingCellWithOneOrLessNeighbors(),
+]);
+
 function useGameBoard(numberOfRows: number) {
 	const [grid, setGrid] = useState<Grid>([]);
-
-	const [gameOfLife] = useState(
-		() =>
-			new GameOfLife([
-				new DeadCellWithThreeNeighbors(),
-				new LivingCellWithFourOrMoreNeighbors(),
-				new LivingCellWithTwoOrThreeNeighbors(),
-				new LivingCellWithOneOrLessNeighbors(),
-			])
-	);
 
 	function resetGame() {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
@@ -30,19 +27,13 @@ function useGameBoard(numberOfRows: number) {
 	}
 
 	function calculateNextFrame() {
-		console.log("Calculating next frame");
-		setGrid(() => gameOfLife.calculateNextFrame(grid));
-		// const oldGrid = [...grid];
-		// console.log("This is what the grid looks like now: ", oldGrid);
-		// const newGrid = gameOfLife.calculateNextFrame([...grid]);
-		// console.log("This is what the next frame looks like: ", newGrid);
-		// const newGrid = gameOfLife.calculateNextFrame(grid);
-		// setGrid(newGrid);
+		const newGrid = gameOfLife.calculateNextFrame(grid);
+		setGrid(newGrid);
 	}
 
 	useEffect(() => {
 		setGrid(gameOfLife.createInitialGrid(numberOfRows));
-	}, [numberOfRows, gameOfLife]);
+	}, [numberOfRows]);
 
 	return { grid, toggleCell, resetGame, calculateNextFrame };
 }
