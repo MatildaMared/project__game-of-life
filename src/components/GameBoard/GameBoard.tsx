@@ -40,38 +40,42 @@ function GameBoard() {
 				grid={grid}
 				toggleCell={toggleCell}
 			/>
-			<ButtonContainer>
+			<ButtonsContainer>
 				<Button onClick={() => setIsRunning(!isRunning)}>
 					{isRunning ? "Stop" : "Start"} Game
 				</Button>
 				<Button secondary onClick={resetBoard}>
 					Reset Board
 				</Button>
-			</ButtonContainer>
-			<RangeContainer>
-				<RangeLabel htmlFor="grid-size">Grid Size</RangeLabel>
-				<RangeInput
-					name="grid-size"
-					id="grid-size"
-					type="range"
-					value={numberOfRows}
-					onChange={(e) => setNumberOfRows(+e.target.value)}
-					min={8}
-					max={32}
-					step={4}
-				/>
-				<RangeLabel htmlFor="simulation-speed">Speed</RangeLabel>
-				<RangeInput
-					name="simulation-speed"
-					id="simulation-speed"
-					type="range"
-					value={simulationSpeed}
-					onChange={(e) => setSimulationSpeed(+e.target.value)}
-					min={1}
-					max={10}
-					step={1}
-				/>
-			</RangeContainer>
+			</ButtonsContainer>
+			<RangeInputsContainer>
+				<RangeContainer>
+					<RangeLabel htmlFor="board-size">Board Size</RangeLabel>
+					<RangeInput
+						name="board-size"
+						id="board-size"
+						type="range"
+						value={numberOfRows}
+						onChange={(e) => setNumberOfRows(+e.target.value)}
+						min={8}
+						max={32}
+						step={4}
+					/>
+				</RangeContainer>
+				<RangeContainer>
+					<RangeLabel htmlFor="simulation-speed">Speed</RangeLabel>
+					<RangeInput
+						name="simulation-speed"
+						id="simulation-speed"
+						type="range"
+						value={simulationSpeed}
+						onChange={(e) => setSimulationSpeed(+e.target.value)}
+						min={1}
+						max={10}
+						step={1}
+					/>
+				</RangeContainer>
+			</RangeInputsContainer>
 		</Container>
 	);
 }
@@ -97,7 +101,12 @@ const Introduction = styled.p`
 	color: var(--color-gray-300);
 `;
 
-const ButtonContainer = styled.div`
+const ButtonsContainer = styled.div`
+	display: flex;
+	gap: 16px;
+`;
+
+const RangeInputsContainer = styled.div`
 	display: flex;
 	gap: 16px;
 `;
