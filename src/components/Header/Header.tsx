@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../Button";
 import Rules from "../Rules";
+import FocusTrap from "focus-trap-react";
 
 function Header() {
 	const [showRules, setShowRules] = useState(false);

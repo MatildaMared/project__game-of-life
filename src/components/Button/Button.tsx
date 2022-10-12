@@ -59,7 +59,7 @@ const Container = styled.button<ButtonProps>`
 		}
 	}
 
-	&:focus {
+	&:focus-visible {
 		outline: 2px solid var(--color-pink);
 		outline-offset: 4px;
 	}

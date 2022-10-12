@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import Button from "../Button";
+import FocusTrap from "focus-trap-react";
 
 interface Props {
 	toggleRules: () => void;
@@ -22,29 +23,31 @@ function Rules({ toggleRules }: Props) {
 	}, [toggleRules]);
 
 	return (
-		<>
-			<Overlay onClick={toggleRules} />
-			<Container onClick={(e) => e.stopPropagation()}>
-				<Button onClick={toggleRules}>Close</Button>
-				<Heading>Rules</Heading>
-				<RulesContainer>
-					<RuleHeading>Living Cells 👶</RuleHeading>
-					<RulesList>
-						<Rule>Each cell with one or no neighbors dies of solitude.</Rule>
-						<Rule>
-							Each cell with four or more neighbors dies of overpopulation.
-						</Rule>
-						<li>Each cell with two or three neighbors survives.</li>
-					</RulesList>
-				</RulesContainer>
-				<RulesContainer>
-					<RuleHeading>Dead Cells 👻</RuleHeading>
-					<RulesList>
-						<Rule>Each cell with three neighbors comes alive.</Rule>
-					</RulesList>
-				</RulesContainer>
-			</Container>
-		</>
+		<FocusTrap>
+			<Overlay>
+				<Overlay onClick={toggleRules} />
+				<Container onClick={(e) => e.stopPropagation()}>
+					<Button onClick={toggleRules}>Close</Button>
+					<Heading>Rules</Heading>
+					<RulesContainer>
+						<RuleHeading>Living Cells 👶</RuleHeading>
+						<RulesList>
+							<Rule>Each cell with one or no neighbors dies of solitude.</Rule>
+							<Rule>
+								Each cell with four or more neighbors dies of overpopulation.
+							</Rule>
+							<li>Each cell with two or three neighbors survives.</li>
+						</RulesList>
+					</RulesContainer>
+					<RulesContainer>
+						<RuleHeading>Dead Cells 👻</RuleHeading>
+						<RulesList>
+							<Rule>Each cell with three neighbors comes alive.</Rule>
+						</RulesList>
+					</RulesContainer>
+				</Container>
+			</Overlay>
+		</FocusTrap>
 	);
 }
 
@@ -78,6 +81,8 @@ const Overlay = styled.div`
 	background-color: rgba(0, 0, 0, 0.7);
 	opacity: 0;
 	animation: ${fadeIn} 1000ms ease-out forwards;
+	display: flex;
+	justify-content: center;
 `;
 
 const Container = styled.div`
