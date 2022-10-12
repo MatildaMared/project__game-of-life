@@ -7,11 +7,14 @@ interface Props {
 	toggleCell: (position: Position) => void;
 	row: number;
 	column: number;
+	id: string;
 }
 
-function Cell({ className, toggleCell, row, column }: Props) {
+function Cell({ className, toggleCell, row, column, id }: Props) {
+
 	return (
 		<Container
+			id={id}
 			className={className}
 			onClick={() => toggleCell({ row, column })}
 		/>

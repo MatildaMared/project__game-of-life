@@ -4,6 +4,13 @@ import { Position } from "../../interfaces/Position";
 import { Grid as IGrid } from "../../types/Grid";
 import Cell from "../Cell";
 
+enum Key {
+	ArrowUp = "ArrowUp",
+	ArrowDown = "ArrowDown",
+	ArrowLeft = "ArrowLeft",
+	ArrowRight = "ArrowRight",
+}
+
 interface Props {
 	isRunning: boolean;
 	numberOfRows: number;
@@ -35,6 +42,53 @@ function Grid({ isRunning, numberOfRows, grid, toggleCell }: Props) {
 		}
 	}, [isRunning]);
 
+	useEffect(() => {
+		function handleKeyDown(e: KeyboardEvent) {
+			const focusedElement = document.activeElement;
+
+			if (focusedElement?.id.includes("cell")) {
+				const row = focusedElement?.id.split("-")[1];
+				const column = focusedElement?.id.split("-")[2];
+				let elementToFocus: HTMLElement | null;
+
+				switch (e.key) {
+					case Key.ArrowUp:
+						elementToFocus = document.querySelector(
+							`#cell-${+row - 1}-${column}`
+						);
+						elementToFocus && elementToFocus.focus();
+						break;
+					case Key.ArrowDown:
+						elementToFocus = document.querySelector(
+							`#cell-${+row + 1}-${column}`
+						);
+						elementToFocus && elementToFocus.focus();
+						break;
+					case Key.ArrowLeft:
+						elementToFocus = document.querySelector(
+							`#cell-${row}-${+column - 1}`
+						);
+						elementToFocus && elementToFocus.focus();
+						break;
+					case Key.ArrowRight:
+						elementToFocus = document.querySelector(
+							`#cell-${row}-${+column + 1}`
+						);
+						elementToFocus && elementToFocus.focus();
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	return (
 		<Container ref={gridContainerRef}>
 			<GridElement ref={gridRef} numberOfRows={numberOfRows}>
@@ -42,6 +96,7 @@ function Grid({ isRunning, numberOfRows, grid, toggleCell }: Props) {
 					grid.map((rows, i) =>
 						rows.map((col, j) => (
 							<Cell
+								id={`cell-${i}-${j}`}
 								className={col === 0 ? "dead" : "alive"}
 								key={`${i}-${j}`}
 								row={i}
