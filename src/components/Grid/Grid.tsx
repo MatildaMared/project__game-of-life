@@ -1,15 +1,10 @@
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import { Key } from "../../enums/Key";
+import { focusElement } from "../../helpers/focusElement";
 import { Position } from "../../interfaces/Position";
 import { Grid as IGrid } from "../../types/Grid";
 import Cell from "../Cell";
-
-enum Key {
-	ArrowUp = "ArrowUp",
-	ArrowDown = "ArrowDown",
-	ArrowLeft = "ArrowLeft",
-	ArrowRight = "ArrowRight",
-}
 
 interface Props {
 	isRunning: boolean;
@@ -49,32 +44,19 @@ function Grid({ isRunning, numberOfRows, grid, toggleCell }: Props) {
 			if (focusedElement?.id.includes("cell")) {
 				const row = focusedElement?.id.split("-")[1];
 				const column = focusedElement?.id.split("-")[2];
-				let elementToFocus: HTMLElement | null;
 
 				switch (e.key) {
 					case Key.ArrowUp:
-						elementToFocus = document.querySelector(
-							`#cell-${+row - 1}-${column}`
-						);
-						elementToFocus && elementToFocus.focus();
+						focusElement(`#cell-${+row - 1}-${column}`);
 						break;
 					case Key.ArrowDown:
-						elementToFocus = document.querySelector(
-							`#cell-${+row + 1}-${column}`
-						);
-						elementToFocus && elementToFocus.focus();
+						focusElement(`#cell-${+row + 1}-${column}`);
 						break;
 					case Key.ArrowLeft:
-						elementToFocus = document.querySelector(
-							`#cell-${row}-${+column - 1}`
-						);
-						elementToFocus && elementToFocus.focus();
+						focusElement(`#cell-${row}-${+column - 1}`);
 						break;
 					case Key.ArrowRight:
-						elementToFocus = document.querySelector(
-							`#cell-${row}-${+column + 1}`
-						);
-						elementToFocus && elementToFocus.focus();
+						focusElement(`#cell-${row}-${+column + 1}`);
 						break;
 					default:
 						break;
