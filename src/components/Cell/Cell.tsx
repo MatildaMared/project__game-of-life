@@ -22,7 +22,7 @@ const Container = styled.button`
 	width: 100%;
 	aspect-ratio: 1/1;
 	background-color: var(--color-gray-900);
-	transition: background-color 250ms;
+	transition: background-color 250ms outline 250ms;
 	cursor: pointer;
 	border: none;
 	border-radius: 2px;
@@ -35,7 +35,8 @@ const Container = styled.button`
 		background-color: var(--color-pink);
 	}
 
-	&:focus {
+	&:focus-visible,
+	&:hover {
 		outline: 2px solid var(--color-pink-light);
 		outline-offset: -2px;
 		border-radius: 1px;
