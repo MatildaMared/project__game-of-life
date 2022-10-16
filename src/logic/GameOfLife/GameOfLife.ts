@@ -61,191 +61,16 @@ export class GameOfLife {
 		return newGrid;
 	}
 
-	calculateNumberOfNeighbors(grid: Grid, position: Position): number {
-		const { row, column } = position;
-		let numberOfNeighbors = 0;
-
-		switch (row) {
-			case 0:
-				switch (column) {
-					case 0:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForTopLeftCorner(
-							grid,
-							position
-						);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForTopRightCorner(grid, position);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForTopEdge(
-							grid,
-							position
-						);
-						break;
-				}
-				break;
-			case grid.length - 1:
-				switch (column) {
-					case 0:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForBottomLeftCorner(
-								grid,
-								position
-							);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors =
-							this.calculateNumberOfNeighborsForBottomRightCorner(
-								grid,
-								position
-							);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForBottomEdge(
-							grid,
-							position
-						);
-						break;
-				}
-				break;
-			default:
-				switch (column) {
-					case 0:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForLeftEdge(
-							grid,
-							position
-						);
-						break;
-					case grid[row].length - 1:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForRightEdge(
-							grid,
-							position
-						);
-						break;
-					default:
-						numberOfNeighbors = this.calculateNumberOfNeighborsForCenter(
-							grid,
-							position
-						);
-						break;
-				}
-		}
-
-		return numberOfNeighbors;
+	private cellIsWithinGrid(grid: Grid, position: Position) {
+		return (
+			position.row >= 0 &&
+			position.row < grid.length &&
+			position.column >= 0 &&
+			position.column < grid[position.row].length
+		);
 	}
 
-	private calculateNumberOfNeighborsForTopLeftCorner(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForTopRightCorner(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomLeftNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForBottomLeftCorner(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopRightNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForBottomRightCorner(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopLeftNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForTopEdge(grid: Grid, position: Position) {
-		let numberOfNeighbors = 0;
-
-		this.hasRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasLeftNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForBottomEdge(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasRightNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForLeftEdge(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomRightNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForRightEdge(
-		grid: Grid,
-		position: Position
-	) {
-		let numberOfNeighbors = 0;
-
-		this.hasBottomNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasBottomLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopLeftNeighbor(grid, position) && numberOfNeighbors++;
-		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
-
-		return numberOfNeighbors;
-	}
-
-	private calculateNumberOfNeighborsForCenter(grid: Grid, position: Position) {
+	private calculateNumberOfNeighbors(grid: Grid, position: Position) {
 		let numberOfNeighbors = 0;
 
 		this.hasTopNeighbor(grid, position) && numberOfNeighbors++;
@@ -262,49 +87,106 @@ export class GameOfLife {
 
 	private hasTopLeftNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
+		const topLeftNeighbor: Position = { row: row - 1, column: column - 1 };
 
-		return grid[row - 1][column - 1] === Cell.Alive;
+		if (this.cellIsWithinGrid(grid, topLeftNeighbor)) {
+			return grid[topLeftNeighbor.row][topLeftNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasTopNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row - 1][column] === Cell.Alive;
+		const topNeighbor: Position = { row: row - 1, column: column };
+
+		if (this.cellIsWithinGrid(grid, topNeighbor)) {
+			return grid[topNeighbor.row][topNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasTopRightNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row - 1][column + 1] === Cell.Alive;
+		const topRightNeighbor: Position = { row: row - 1, column: column + 1 };
+
+		if (this.cellIsWithinGrid(grid, topRightNeighbor)) {
+			return grid[topRightNeighbor.row][topRightNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasLeftNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row][column - 1] === Cell.Alive;
+		const leftNeighbor: Position = { row: row, column: column - 1 };
+
+		if (this.cellIsWithinGrid(grid, leftNeighbor)) {
+			return grid[leftNeighbor.row][leftNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasRightNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row][column + 1] === Cell.Alive;
+		const rightNeighbor: Position = { row: row, column: column + 1 };
+
+		if (this.cellIsWithinGrid(grid, rightNeighbor)) {
+			return grid[rightNeighbor.row][rightNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasBottomLeftNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row + 1][column - 1] === Cell.Alive;
+		const bottomLeftNeighbor: Position = { row: row + 1, column: column - 1 };
+
+		if (this.cellIsWithinGrid(grid, bottomLeftNeighbor)) {
+			return (
+				grid[bottomLeftNeighbor.row][bottomLeftNeighbor.column] === Cell.Alive
+			);
+		}
+
+		return false;
 	}
 
 	private hasBottomNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row + 1][column] === Cell.Alive;
+		const bottomNeighbor: Position = {
+			row: row + 1,
+			column: column,
+		};
+
+		if (this.cellIsWithinGrid(grid, bottomNeighbor)) {
+			return grid[bottomNeighbor.row][bottomNeighbor.column] === Cell.Alive;
+		}
+
+		return false;
 	}
 
 	private hasBottomRightNeighbor(grid: Grid, position: Position) {
 		const { row, column } = position;
 
-		return grid[row + 1][column + 1] === Cell.Alive;
+		const bottomRightNeighbor: Position = {
+			row: row + 1,
+			column: column + 1,
+		};
+
+		if (this.cellIsWithinGrid(grid, bottomRightNeighbor)) {
+			return (
+				grid[bottomRightNeighbor.row][bottomRightNeighbor.column] === Cell.Alive
+			);
+		}
+
+		return false;
 	}
 }
